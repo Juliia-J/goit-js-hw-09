@@ -1,0 +1,2 @@
+const t={start:document.querySelector("#data-start"),stop:document.querySelector("#data-stop")};setRandomColor=()=>{const t=colors[(colors.length,`#${Math.floor(16777215*Math.random()).toString(16)}`)];console.log(t),document.body.style.backgroundColor=t},t.start.addEventListener("click",(t=>interval=interval||setInterval((()=>setRandomColor()),1e3))),t.stop.addEventListener("click",(()=>{clearInterval(timerId),console.log(`Interval with id ${timerId} has stopped!`)}));
+//# sourceMappingURL=01-color-switcher.3292aa75.js.map
