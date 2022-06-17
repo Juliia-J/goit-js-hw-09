@@ -13,12 +13,12 @@ const refs = {
 
 let timerId = null;
 let selectedTime = null;
+let selectedDates = [];
 refs.startButton.disabled = true;
 
+refs.startButton.setAttribute('disabled', 'disabled');
 refs.startButton.addEventListener('click', () => {
-  timerId = setInterval(() => {
-    convertMs(ms) = selectedTime - selectedDates[0];
-  }, 1000);
+ return timer.start();
 });
 
 const options = {
@@ -32,15 +32,32 @@ const options = {
           window.alert("Please choose a date in the future");
       } else {
           refs.startButton.disabled = false;
-          console.log(selectedTime);
+          // console.log(selectedTime);
           return selectedTime;
     }
   },
 };
 
 flatpickr('#datetime-picker', options);
-    
+   
+const timer = {
+  isActiv: false,
+  start() {
+    if (this.isActiv) {
+      return;
+    }
+    this.isActiv = true;
 
+    setInterval(() => {
+      const ms = selectedDates - Date.now();
+      const msComponents = convertMs(ms);
+      timerUpdate(msComponents);
+      console.log(selectedTime);
+    }, 1000);
+  },
+};
+
+// function timerUpdate ({days, hours, minutes, seconds}){
 function convertMs(ms) {
   // Number of milliseconds per unit of time
   const second = 1000;
@@ -60,6 +77,6 @@ function convertMs(ms) {
   return { days, hours, minutes, seconds };
 }
 
-console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
-console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
-console.log(convertMs(24140000)); // {days: 0, hours: 6 minutes: 42, seconds: 20}
+// console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
+// console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
+// console.log(convertMs(24140000)); // {days: 0, hours: 6 minutes: 42, seconds: 20}
