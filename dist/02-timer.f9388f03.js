@@ -517,6 +517,7 @@ const refs = {
     seconds: document.querySelector("[data-seconds]")
 };
 let timerId = null;
+let ms = 0;
 let selectedTime = null;
 let selectedDates = [];
 refs.startButton.disabled = true;
@@ -535,7 +536,7 @@ const options = {
             window.alert("Please choose a date in the future");
         } else {
             refs.startButton.disabled = false;
-            // console.log(selectedTime);
+            console.log(selectedTime1);
             return selectedTime1;
         }
     }
@@ -547,37 +548,37 @@ const timer = {
         if (this.isActiv) return;
         this.isActiv = true;
         setInterval(()=>{
-            const ms = selectedDates - Date.now();
+            // ms = selectedDates - Date.now();
             const msComponents = convertMs(ms);
             timerUpdate(msComponents);
-            console.log(selectedTime);
+        // console.log(selectedTime);
         }, 1000);
     }
 };
-// function timerUpdate ({days, hours, minutes, seconds}){
-function convertMs(ms) {
-    // Number of milliseconds per unit of time
+function timerUpdate() {
+    selectedTime = convertMs(ms);
+}
+function convertMs(ms1) {
+    ms1 = selectedDates - Date.now();
     const second = 1000;
     const minute = second * 60;
     const hour = minute * 60;
     const day = hour * 24;
     // Remaining days
-    const days = Math.floor(ms / day);
+    const days = Math.floor(ms1 / day);
     // Remaining hours
-    const hours = Math.floor(ms % day / hour);
+    const hours = Math.floor(ms1 % day / hour);
     // Remaining minutes
-    const minutes = Math.floor(ms % day % hour / minute);
+    const minutes = Math.floor(ms1 % day % hour / minute);
     // Remaining seconds
-    const seconds = Math.floor(ms % day % hour % minute / second);
+    const seconds = Math.floor(ms1 % day % hour % minute / second);
     return {
         days,
         hours,
         minutes,
         seconds
     };
-} // console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
- // console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
- // console.log(convertMs(24140000)); // {days: 0, hours: 6 minutes: 42, seconds: 20}
+}
 
 },{"flatpickr":"llQu5","flatpickr/dist/flatpickr.min.css":"eVN6V","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"llQu5":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");

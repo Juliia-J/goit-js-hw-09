@@ -507,16 +507,18 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _notiflix = require("notiflix");
 var _notiflixDefault = parcelHelpers.interopDefault(_notiflix);
 const form = document.querySelector(".form");
-// let timerId = null;
 form.addEventListener("submit", (event)=>{
     const { elements: { delay , step , amount  }  } = event.currentTarget;
-    console.log(`delay: ${delay.value}, step: ${step.value}, step: ${amount.value}`);
+    console.log(`delay: ${delay.value}, step: ${step.value}, amount: ${amount.value}`);
     event.preventDefault();
-    for(let i = position; i < amount; i = delay + step)createPromise(i).then((value)=>{
-        (0, _notiflixDefault.default).Notify.success(value);
-    }).catch((error)=>{
-        (0, _notiflixDefault.default).Notify.failure(error);
-    });
+    for(let i; i < amount; i += 1){
+        delay.value = delay.value + step.value;
+        return createPromise(i, delay).then((value)=>{
+            (0, _notiflixDefault.default).Notify.success(value);
+        }).catch((error)=>{
+            (0, _notiflixDefault.default).Notify.failure(error);
+        });
+    }
 });
 function createPromise(position, delay) {
     return new Promise((resolve, reject)=>{

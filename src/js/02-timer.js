@@ -12,6 +12,7 @@ const refs = {
 }
 
 let timerId = null;
+let ms = 0;
 let selectedTime = null;
 let selectedDates = [];
 refs.startButton.disabled = true;
@@ -32,7 +33,7 @@ const options = {
           window.alert("Please choose a date in the future");
       } else {
           refs.startButton.disabled = false;
-          // console.log(selectedTime);
+          console.log(selectedTime);
           return selectedTime;
     }
   },
@@ -49,17 +50,20 @@ const timer = {
     this.isActiv = true;
 
     setInterval(() => {
-      const ms = selectedDates - Date.now();
+      // ms = selectedDates - Date.now();
       const msComponents = convertMs(ms);
       timerUpdate(msComponents);
-      console.log(selectedTime);
+      // console.log(selectedTime);
     }, 1000);
   },
 };
 
-// function timerUpdate ({days, hours, minutes, seconds}){
+function timerUpdate() {
+  selectedTime = convertMs(ms);
+}
+
 function convertMs(ms) {
-  // Number of milliseconds per unit of time
+  ms = selectedDates - Date.now();
   const second = 1000;
   const minute = second * 60;
   const hour = minute * 60;
@@ -76,7 +80,3 @@ function convertMs(ms) {
 
   return { days, hours, minutes, seconds };
 }
-
-// console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
-// console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
-// console.log(convertMs(24140000)); // {days: 0, hours: 6 minutes: 42, seconds: 20}
