@@ -511,14 +511,12 @@ form.addEventListener("submit", (event)=>{
     const { elements: { delay , step , amount  }  } = event.currentTarget;
     console.log(`delay: ${delay.value}, step: ${step.value}, amount: ${amount.value}`);
     event.preventDefault();
-    for(let i; i < amount; i += 1){
-        delay.value = delay.value + step.value;
-        return createPromise(i, delay).then((value)=>{
-            (0, _notiflixDefault.default).Notify.success(value);
-        }).catch((error)=>{
-            (0, _notiflixDefault.default).Notify.failure(error);
-        });
-    }
+    for(let i = 0; i < amount.value; i += 1)// let delay = delay.value + step.value;
+    createPromise(i, delay = delay.value + step.value).then((value)=>{
+        (0, _notiflixDefault.default).Notify.success(value);
+    }).catch((error)=>{
+        (0, _notiflixDefault.default).Notify.failure(error);
+    });
 });
 function createPromise(position, delay) {
     return new Promise((resolve, reject)=>{
