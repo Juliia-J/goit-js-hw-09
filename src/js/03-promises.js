@@ -1,8 +1,17 @@
 import Notiflix from 'notiflix';
 
-const form = document.querySelector(".form");
+const refs = {
+  form: document.querySelector(".form"),
+  delay: document.querySelector(".form delay"),
+  amount: document.querySelector(".form amount"),
+  step: document.querySelector(".form step"),
+}
 
-form.addEventListener("submit", event => {
+const delayUse = parseInt(refs.delay.value);
+const amountUse = parseInt(refs.amount.value);
+const stepUse = parseInt(refs.step.value);
+
+refs.form.addEventListener("submit", event => {
   const {
     elements: { delay, step, amount }
   } = event.currentTarget;
@@ -10,15 +19,15 @@ form.addEventListener("submit", event => {
   console.log(`delay: ${delay.value}, step: ${step.value}, amount: ${amount.value}`);
   event.preventDefault()
 
-  for (let i = 0; i < amount.value; i += 1) {
-    // let delay = delay.value + step.value;
-    createPromise(i, delay = delay.value + step.value)
+  for (let position = 1; position <= amount.value; position += 1) {
+    createPromise(position, delayUse)
       .then(value => {
         Notiflix.Notify.success(value);
       })
       .catch(error => {
         Notiflix.Notify.failure(error);
       });
+    delayUse += stepUse;
   }
 }
 );

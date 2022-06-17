@@ -506,17 +506,27 @@ function hmrAcceptRun(bundle, id) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _notiflix = require("notiflix");
 var _notiflixDefault = parcelHelpers.interopDefault(_notiflix);
-const form = document.querySelector(".form");
-form.addEventListener("submit", (event)=>{
+const refs = {
+    form: document.querySelector(".form"),
+    delay: document.querySelector(".form delay"),
+    amount: document.querySelector(".form amount"),
+    step: document.querySelector(".form step")
+};
+const delayUse = parseInt(refs.delay.value);
+const amountUse = parseInt(refs.amount.value);
+const stepUse = parseInt(refs.step.value);
+refs.form.addEventListener("submit", (event)=>{
     const { elements: { delay , step , amount  }  } = event.currentTarget;
     console.log(`delay: ${delay.value}, step: ${step.value}, amount: ${amount.value}`);
     event.preventDefault();
-    for(let i = 0; i < amount.value; i += 1)// let delay = delay.value + step.value;
-    createPromise(i, delay = delay.value + step.value).then((value)=>{
-        (0, _notiflixDefault.default).Notify.success(value);
-    }).catch((error)=>{
-        (0, _notiflixDefault.default).Notify.failure(error);
-    });
+    for(let position = 1; position <= amount.value; position += 1){
+        createPromise(position, delayUse).then((value)=>{
+            (0, _notiflixDefault.default).Notify.success(value);
+        }).catch((error)=>{
+            (0, _notiflixDefault.default).Notify.failure(error);
+        });
+        delayUse += stepUse;
+    }
 });
 function createPromise(position, delay) {
     return new Promise((resolve, reject)=>{
