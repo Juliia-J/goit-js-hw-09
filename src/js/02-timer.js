@@ -12,9 +12,8 @@ const refs = {
 }
 
 let timerId = null;
-let ms = 0;
-let selectedTime = null;
-let selectedDates = [];
+let turgetDate = 0;
+let selectedDates = 0;
 refs.startButton.disabled = true;
 
 refs.startButton.setAttribute('disabled', 'disabled');
@@ -27,14 +26,14 @@ const options = {
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
-  onClose(selectedDates, selectedTime) {
-      if (selectedDates[0].getTime() <= options.defaultDate) {
-          refs.startButton.disabled = true;
-          window.alert("Please choose a date in the future");
+  onClose(selectedDates) {
+     console.log(selectedDates);
+      if (selectedDates[0] < options.defaultDate) {
+        window.alert("Please choose a date in the future");
+        return;
       } else {
-          refs.startButton.disabled = false;
-          console.log(selectedTime);
-          return selectedTime;
+        refs.startButton.removeAttribute('disabled');
+        turgetDate = selectedDates[0];
     }
   },
 };
@@ -45,21 +44,24 @@ const timer = {
   isActiv: false,
   start() {
     if (this.isActiv) {
-      return;
+      return
     }
     this.isActiv = true;
 
-    setInterval(() => {
-      // ms = selectedDates - Date.now();
+   this.timerId = setInterval(() => {
+      const ms = turgetDate - Date.now();
       const msComponents = convertMs(ms);
       timerUpdate(msComponents);
-      // console.log(selectedTime);
+      console.log(msComponents);
     }, 1000);
   },
 };
 
-function timerUpdate() {
-  selectedTime = convertMs(ms);
+function timerUpdate(ms) {
+  refs.days.textContent = convertMs(ms).days;
+  refs.hours.textContent = convertMs(ms).hours;
+  refs.minutes.textContent = convertMs(ms).minutes;
+  refs.seconds.textContent = convertMs(ms).seconds;
 }
 
 function convertMs(ms) {
@@ -69,13 +71,9 @@ function convertMs(ms) {
   const hour = minute * 60;
   const day = hour * 24;
 
-  // Remaining days
   const days = Math.floor(ms / day);
-  // Remaining hours
   const hours = Math.floor((ms % day) / hour);
-  // Remaining minutes
   const minutes = Math.floor(((ms % day) % hour) / minute);
-  // Remaining seconds
   const seconds = Math.floor((((ms % day) % hour) % minute) / second);
 
   return { days, hours, minutes, seconds };
