@@ -512,14 +512,14 @@ const refs = {
     amount: document.querySelector(".form amount"),
     step: document.querySelector(".form step")
 };
-const delayUse = parseInt(refs.delay.value);
-const amountUse = parseInt(refs.amount.value);
-const stepUse = parseInt(refs.step.value);
+let delayUse = Number(refs.delay.value);
+const amountUse = refs.amount.value;
+const stepUse = refs.step.value;
 refs.form.addEventListener("submit", (event)=>{
     const { elements: { delay , step , amount  }  } = event.currentTarget;
     console.log(`delay: ${delay.value}, step: ${step.value}, amount: ${amount.value}`);
     event.preventDefault();
-    for(let position = 1; position <= amount.value; position += 1){
+    for(let position = 1; position <= amountUse; position++){
         createPromise(position, delayUse).then((value)=>{
             (0, _notiflixDefault.default).Notify.success(value);
         }).catch((error)=>{
